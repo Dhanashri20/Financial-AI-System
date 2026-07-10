@@ -1,0 +1,34 @@
+# Core
+pandas>=2.0
+numpy>=1.24
+python-dotenv
+
+# Data sources
+yfinance
+finnhub-python
+
+# Sentiment (FinBERT)
+torch
+transformers
+
+# Forecasting
+xgboost
+lightgbm
+statsmodels
+prophet
+arch
+scikit-learn
+
+# RL
+gymnasium
+gym-anytrading
+stable-baselines3
+shimmy
+
+# Dashboard
+streamlit
+plotly
+pyarrow
+
+# Broker
+alpaca-py
