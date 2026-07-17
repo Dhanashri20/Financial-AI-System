@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # --- Secrets (NEVER hardcode these) ---
-FINNHUB_API_KEY = "d8vj5a9r01qgrv4opm20d8vj5a9r01qgrv4opm2g"
+FINNHUB_API_KEY = os.environ.get("FINNHUB_KEY")
 # FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY", "")
 ALPACA_API_KEY = os.getenv("ALPACA_API_KEY", "")
 ALPACA_SECRET_KEY = os.getenv("ALPACA_SECRET_KEY", "")
@@ -33,5 +33,5 @@ MIN_RL_CONFIDENCE = 0.55       # skip trades below this confidence
 MODELS_DIR = os.path.join(os.path.dirname(__file__), "models")
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 TICKER = "NVDA"
-HF_TOKEN = " "
-SEC_USER_AGENT = " "
+HF_TOKEN = os.environ.get("HF_TOKEN")
+SEC_USER_AGENT = os.environ.get("SEC_USER_AGENT")
