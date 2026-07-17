@@ -33,5 +33,5 @@ MIN_RL_CONFIDENCE = 0.55       # skip trades below this confidence
 MODELS_DIR = os.path.join(os.path.dirname(__file__), "models")
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 TICKER = "NVDA"
-HF_TOKEN = "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"
-SEC_USER_AGENT = "PersonalResearch dhanashri.datalearn44@gmail.com"
+# HF_TOKEN
+# SEC_USER_AGENT
