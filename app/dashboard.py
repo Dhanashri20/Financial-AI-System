@@ -23,6 +23,7 @@ from src import signals
 st.set_page_config(page_title="AI Trading Decision-Support", layout="wide")
 
 TICKER = config.TICKER
+# TICKER = st.sidebar.text_input("Ticker Symbol", value=config.TICKER).strip().upper()
 MODEL_PATH = os.path.join(config.MODELS_DIR, f"ppo_{TICKER}.zip")
 RL_DF_PATH = os.path.join(config.DATA_DIR, f"rl_df_{TICKER}.parquet")
 
@@ -87,7 +88,8 @@ if "order_log" not in st.session_state:
 
 # ---------------- main ----------------
 st.title("📊 AI Trading Decision-Support Dashboard")
-tabs = st.tabs(["Overview", "Forecast", "Sentiment", "RL Decision", "Paper Trading"])
+tabs = st.tabs(["Overview", "Forecast", "Sentiment", "RL Decision",
+                "AI Analysis", "Paper Trading"])
 
 with tabs[0]:
     c1, c2, c3, c4 = st.columns(4)
@@ -132,6 +134,43 @@ with tabs[3]:
                "z-scored ML forecast) windows, gated by the confidence threshold.")
 
 with tabs[4]:
+    st.subheader("🤖 Combined AI Analysis (RAG + LLM)")
+    st.caption(
+        "Retrieves SEC filings dated before the decision date and asks an LLM "
+        "to explain the models' combined output. The LLM explains — it never decides."
+    )
+
+    if st.button("Generate analysis", key="gen_analysis"):
+        from src import explainer
+        try:
+            with st.spinner("Retrieving filings and generating summary..."):
+                out = explainer.explain(
+                    TICKER,
+                    decision.action,
+                    decision.confidence,
+                    decision.ml_forecast,
+                    decision.sentiment,
+                    as_of_date=str(rl_df.index.max().date()),
+                )
+            st.session_state["analysis"] = out
+        except Exception as e:
+            st.error(f"Analysis failed: {e}")
+
+    out = st.session_state.get("analysis")
+    if out:
+        if out.get("model"):
+            st.caption(f"Model: `{out['model']}`")
+        st.markdown(out["summary"])
+        with st.expander("📄 Retrieved filing evidence"):
+            if not out["sources"]:
+                st.info("No filings indexed before this date — run "
+                        f"`python scripts/ingest_filings.py {TICKER}`")
+            for s in out["sources"]:
+                st.caption(f"**{s['meta']['form']} — {s['meta']['filing_date']}**")
+                st.text(s["text"][:500])
+
+
+with tabs[5]:
     st.subheader("Paper Trading (Alpaca)")
     st.warning("Orders go to Alpaca's PAPER endpoint. Every order passes "
                "risk circuit breakers first.", icon="⚠️")
@@ -174,3 +213,5 @@ with tabs[4]:
                      use_container_width=True)
     else:
         st.info("No orders this session.")
+
+
