@@ -11,7 +11,7 @@ if [ -z "$TICKER" ]; then
 fi
 
 echo ">>>Updating config.py: TICKER = \"$TICKER\""
-if grep -qE '^TICKER[[:space:]]*=' config,.py; then
+if grep -qE '^TICKER[[:space:]]*=' config.py; then
     # Replace the existing ticker line
     sed -i "s/^TICKER[[:space:]]*=.*/TICKER = \"$TICKER\"/" config.py
 else
@@ -21,7 +21,10 @@ fi
 
 echo ">>> Training model for $TICKER..."
 python -m src.rl_train --ticker "$TICKER" || { echo "Training failed — not launching dashboard."; exit 1; }
- 
+
+echo ">>> Training model for $TICKER..."
+python scripts/ingest_filings.py "$TICKER"
+
 echo ">>> Launching dashboard..."
 streamlit run app/dashboard.py
  

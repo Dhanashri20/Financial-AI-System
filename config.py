@@ -5,14 +5,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # --- Secrets (NEVER hardcode these) ---
-FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY", "")
+FINNHUB_API_KEY = "d8vj5a9r01qgrv4opm20d8vj5a9r01qgrv4opm2g"
+# FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY", "")
 ALPACA_API_KEY = os.getenv("ALPACA_API_KEY", "")
 ALPACA_SECRET_KEY = os.getenv("ALPACA_SECRET_KEY", "")
 # Paper trading endpoint. For live trading later, change to https://api.alpaca.markets
 ALPACA_BASE_URL = os.getenv("ALPACA_BASE_URL", "https://paper-api.alpaca.markets")
 
 # --- Model / data settings (mirrors your notebook CONFIG cell) ---
-TICKER = "AAPL"
+TICKER = "NVDA"
 LOOKBACK = "3y"          # yfinance history
 HORIZON = 7              # forecast days ahead
 TEST_DAYS = 60           # backtest holdout
@@ -31,3 +32,6 @@ MIN_RL_CONFIDENCE = 0.55       # skip trades below this confidence
 # --- Paths ---
 MODELS_DIR = os.path.join(os.path.dirname(__file__), "models")
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+TICKER = "NVDA"
+HF_TOKEN = "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"
+SEC_USER_AGENT = "PersonalResearch dhanashri.datalearn44@gmail.com"

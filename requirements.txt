@@ -32,3 +32,13 @@ pyarrow
 
 # Broker
 alpaca-py
+
+
+#RAG
+chromadb
+sentence-transformers
+rank_bm25
+huggingface_hub
+beautifulsoup4
+lxml
+requests
