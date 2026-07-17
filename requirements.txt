@@ -42,3 +42,4 @@ huggingface_hub
 beautifulsoup4
 lxml
 requests
+torchvision
